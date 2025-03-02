@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:37:25 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/02 14:44:18 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/02 17:16:09 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	init_philo_values(t_philo *philo, char **av, int ac, size_t start);
 void	init_philosophers(t_program *program, int nb_philo, int ac, char **av);
 int		eat_sleep_think(t_philo *philo);
 int		take_forks(t_philo *philo);
-int		check_meals_complete(t_philo *philo);
 void	death_reaper(t_philo *philos, int nb_philo);
 void	cleanup(t_program *program, int nb_philo);
 int		check_philo_death(t_philo *philos, int i);
