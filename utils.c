@@ -39,13 +39,6 @@ int	ft_atoi(const char *str)
 	i = skip_ws_and_s(str, &sign);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if (result > (LONG_MAX - (str[i] - '0')) / 10)
-		{
-			if (sign == 1)
-				return (-1);
-			else
-				return (0);
-		}
 		result = result * 10 + (str[i] - '0');
 		i++;
 	}
