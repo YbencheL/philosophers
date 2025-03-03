@@ -34,7 +34,7 @@ int	take_forks(t_philo *philo)
 	if (*philo->all_done)
 		return (0);
 	if (philo->id % 2)
-		usleep(300);
+		usleep(400);
 	if (philo->id % 2 == 0)
 		return (take_forks_even(philo));
 	else
