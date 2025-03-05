@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:41:11 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/01 15:13:03 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/04 13:51:01 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	cleanup(t_program *program, int nb_philo)
 {
 	int	i;
 
-	usleep(100);
 	i = -1;
 	while (++i < nb_philo)
 	{

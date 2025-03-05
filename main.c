@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:37:33 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/02 17:10:24 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:58:50 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,9 @@ void	init_utils(t_program *program, int i, int nb_philo)
 void	init_philosophers(t_program *program, int nb_philo, int ac, char **av)
 {
 	int				i;
-	struct timeval	current;
 	size_t			start;
 
-	gettimeofday(&current, NULL);
-	start = (current.tv_sec * 1000) + (current.tv_usec / 1000);
+	start = get_timestamp();
 	program->philos = malloc(sizeof(t_philo) * nb_philo);
 	if (!program->philos)
 		return ;
