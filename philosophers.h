@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:37:25 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/10 23:30:05 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/10 23:42:37 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,5 @@ void	handle_single_philo(t_philo *philo);
 int		check_meals_helper(t_philo *philos, int nb_philo);
 int		eat_action(t_philo *philo);
 int		sleep_think(t_philo *philo);
-void	precise_sleep(int ms);
+void	precise_sleep(size_t ms);
+void	*philo_routine(t_philo *philo);

@@ -29,7 +29,7 @@ int	take_forks(t_philo *philo)
 
 int	eat_action(t_philo *philo)
 {
-	long long	eating_start;
+	size_t	eating_start;
 	int			done;
 
 	eating_start = get_timestamp();
@@ -74,10 +74,10 @@ int	sleep_think(t_philo *philo)
 	return (1);
 }
 
-void	precise_sleep(int ms)
+void	precise_sleep(size_t ms)
 {
-	long long	start;
-	long long	elapsed;
+	size_t	start;
+	size_t	elapsed;
 
 	start = get_timestamp();
 	while (1)
