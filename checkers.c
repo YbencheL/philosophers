@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:03:28 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/10 22:52:08 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/10 23:35:11 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,29 +77,44 @@ int	check_args(int ac, char **av)
 	return (0);
 }
 
-int	check_philo_death(t_philo *philos, int i)
+static int	handle_death_event(t_philo *philo, long long current_time)
 {
-	int	current_time;
-	int	last_meal;
-
-	pthread_mutex_lock(philos[i].meal_lock);
-	last_meal = philos[i].last_meal;
-	pthread_mutex_unlock(philos[i].meal_lock);
-	current_time = get_timestamp();
-	if (current_time - last_meal >= philos[i].time_to_die)
+	pthread_mutex_lock(philo->dead_lock);
+	if (!(*philo->all_done))
 	{
-		pthread_mutex_lock(philos[i].dead_lock);
-		if (!(*philos[i].all_done))
-		{
-			*philos[i].all_done = 1;
-			philos[i].dead = 1;
-			pthread_mutex_lock(philos[i].write_lock);
-			printf("%d %d died\n", current_time - philos[i].start_time,
-				philos[i].id + 1);
-			pthread_mutex_unlock(philos[i].write_lock);
-		}
-		pthread_mutex_unlock(philos[i].dead_lock);
+		*philo->all_done = 1;
+		philo->dead = 1;
+		pthread_mutex_lock(philo->write_lock);
+		printf("%lld %d died\n",
+			current_time - philo->start_time,
+			philo->id + 1);
+		pthread_mutex_unlock(philo->write_lock);
+		pthread_mutex_unlock(philo->dead_lock);
 		return (1);
 	}
+	pthread_mutex_unlock(philo->dead_lock);
+	return (0);
+}
+
+int	check_philo_death(t_philo *philos, int i)
+{
+	long long	current_time;
+	long long	last_meal;
+	long long	time_since_meal;
+
+	pthread_mutex_lock(philos[i].dead_lock);
+	if (*philos[i].all_done)
+	{
+		pthread_mutex_unlock(philos[i].dead_lock);
+		return (0);
+	}
+	pthread_mutex_unlock(philos[i].dead_lock);
+	pthread_mutex_lock(philos[i].meal_lock);
+	last_meal = philos[i].last_meal;
+	current_time = get_timestamp();
+	time_since_meal = current_time - last_meal;
+	pthread_mutex_unlock(philos[i].meal_lock);
+	if (time_since_meal > philos[i].time_to_die)
+		return (handle_death_event(&philos[i], current_time));
 	return (0);
 }
