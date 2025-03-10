@@ -12,13 +12,13 @@
 
 #include "philosophers.h"
 
-void	init_philo_values(t_philo *philo, char **av, int ac, size_t start)
+void	init_philo_values(t_philo *philo, char **av, int ac)
 {
 	philo->time_to_die = ft_atoi(av[2]);
 	philo->time_to_eat = ft_atoi(av[3]);
 	philo->time_to_sleep = ft_atoi(av[4]);
-	philo->start_time = start;
-	philo->last_meal = start;
+	philo->start_time = get_timestamp();
+	philo->last_meal = get_timestamp();
 	philo->dead = 0;
 	philo->meals_eaten = 0;
 	if (ac == 6)
@@ -42,9 +42,7 @@ void	init_utils(t_program *program, int i, int nb_philo)
 void	init_philosophers(t_program *program, int nb_philo, int ac, char **av)
 {
 	int				i;
-	size_t			start;
 
-	start = get_timestamp();
 	program->philos = malloc(sizeof(t_philo) * nb_philo);
 	if (!program->philos)
 		return ;
@@ -55,7 +53,7 @@ void	init_philosophers(t_program *program, int nb_philo, int ac, char **av)
 	while (i < nb_philo)
 	{
 		init_utils(program, i, nb_philo);
-		init_philo_values(&program->philos[i], av, ac, start);
+		init_philo_values(&program->philos[i], av, ac);
 		pthread_mutex_init(program->philos[i].left_fork, NULL);
 		if (i > 0)
 			program->philos[i].right_fork = program->philos[i - 1].left_fork;

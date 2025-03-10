@@ -36,7 +36,7 @@ void	create_threads(t_program *program, int nb_philo)
 	cleanup(program, nb_philo);
 }
 
-static void	handle_single_philo(t_philo *philo)
+void	handle_single_philo(t_philo *philo)
 {
 	print_status(philo, "has taken a fork");
 	usleep(philo->time_to_die * 1000);
@@ -59,8 +59,15 @@ void	*philo_purpose(void *arg)
 	}
 	if (philo->id % 2)
 		usleep(300);
-	while (!(*philo->all_done))
+	while (1)
 	{
+		pthread_mutex_lock(philo->dead_lock);
+		if (*philo->all_done)
+		{
+			pthread_mutex_unlock(philo->dead_lock);
+			return 0;
+		}
+		pthread_mutex_unlock(philo->dead_lock);
 		if (!take_forks(philo))
 			break ;
 		if (!eat_sleep_think(philo))

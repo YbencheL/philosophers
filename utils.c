@@ -61,7 +61,7 @@ int	is_digit(const char *str)
 	return (1);
 }
 
-size_t	get_timestamp(void)
+int	get_timestamp(void)
 {
 	struct timeval	current;
 

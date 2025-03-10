@@ -30,7 +30,12 @@ void	cleanup(t_program *program, int nb_philo)
 
 int	take_forks(t_philo *philo)
 {
-	if (*philo->all_done)
+	int done;
+	
+	pthread_mutex_lock(philo->dead_lock);
+	done = *philo->all_done;
+	pthread_mutex_unlock(philo->dead_lock);
+	if (done)
 		return (0);
 	if (philo->id % 2)
 		usleep(400);
@@ -43,7 +48,7 @@ int	take_forks(t_philo *philo)
 void	print_status(t_philo *philo, char *status)
 {
 	pthread_mutex_lock(philo->write_lock);
-	printf("%zu %d %s\n", get_timestamp() - philo->start_time,
+	printf("%d %d %s\n", get_timestamp() - philo->start_time,
 		philo->id + 1, status);
 	pthread_mutex_unlock(philo->write_lock);
 }
