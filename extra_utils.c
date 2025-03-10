@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:41:11 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/10 22:24:47 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/10 22:52:20 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	cleanup(t_program *program, int nb_philo)
 	pthread_mutex_destroy(&program->meal_lock);
 	free(program->philos);
 }
-
 
 void	print_status(t_philo *philo, char *status)
 {

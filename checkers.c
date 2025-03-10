@@ -6,21 +6,11 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:03:28 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/10 22:15:54 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/10 22:52:08 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-int	check_and_exit_if_done(t_philo *philo)
-{
-	int	done;
-
-	pthread_mutex_lock(philo->dead_lock);
-	done = *philo->all_done;
-	pthread_mutex_unlock(philo->dead_lock);
-	return (done);
-}
 
 int	check_meals_helper(t_philo *philos, int nb_philo)
 {

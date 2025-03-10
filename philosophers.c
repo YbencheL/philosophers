@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 09:41:50 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/10 22:27:27 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/10 22:51:47 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	handle_single_philo(t_philo *philo)
 void	*philo_purpose(void *arg)
 {
 	t_philo	*philo;
-	int		done;
 
 	philo = (t_philo *)arg;
 	if (philo->nb_philos == 1)
@@ -59,13 +58,15 @@ void	*philo_purpose(void *arg)
 		handle_single_philo(philo);
 		return (NULL);
 	}
-	if (philo->id % 2)
-		usleep(300);
 	while (1)
 	{
-		done = check_and_exit_if_done(philo);
-		if (done)
+		pthread_mutex_lock(philo->dead_lock);
+		if (*philo->all_done)
+		{
+			pthread_mutex_unlock(philo->dead_lock);
 			return (0);
+		}
+		pthread_mutex_unlock(philo->dead_lock);
 		if (!eat_sleep_think(philo))
 			break ;
 		if (check_all_meals(philo, philo->nb_philos))
