@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 09:41:50 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/10 21:50:12 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/10 22:27:27 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	create_threads(t_program *program, int nb_philo)
 		pthread_mutex_lock(&program->meal_lock);
 		program->philos[i].last_meal = get_timestamp();
 		pthread_mutex_unlock(&program->meal_lock);
-		usleep(100);
 		i++;
 	}
 	if (nb_philo > 1)
@@ -49,25 +48,6 @@ void	handle_single_philo(t_philo *philo)
 	pthread_mutex_unlock(philo->dead_lock);
 }
 
-int	check_and_exit_if_done(t_philo *philo)
-{
-	int	done;
-
-	pthread_mutex_lock(philo->dead_lock);
-	done = *philo->all_done;
-	pthread_mutex_unlock(philo->dead_lock);
-	return (done);
-}
-
-int	run_philo_routine(t_philo *philo)
-{
-	if (!eat_sleep_think(philo))
-		return (0);
-	if (check_all_meals(philo, philo->nb_philos))
-		return (0);
-	return (1);
-}
-
 void	*philo_purpose(void *arg)
 {
 	t_philo	*philo;
@@ -86,7 +66,9 @@ void	*philo_purpose(void *arg)
 		done = check_and_exit_if_done(philo);
 		if (done)
 			return (0);
-		if (!run_philo_routine(philo))
+		if (!eat_sleep_think(philo))
+			break ;
+		if (check_all_meals(philo, philo->nb_philos))
 			break ;
 	}
 	return (NULL);

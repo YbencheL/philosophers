@@ -6,29 +6,27 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 20:08:07 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/10 21:27:48 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/10 22:27:54 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	set_all_done_flag(t_philo *philos)
+int	take_forks(t_philo *philo)
 {
-	pthread_mutex_lock(philos[0].dead_lock);
-	*philos[0].all_done = 1;
-	pthread_mutex_unlock(philos[0].dead_lock);
-}
+	int	done;
 
-int	check_done_flag(t_philo *philos)
-{
-	pthread_mutex_lock(philos[0].dead_lock);
-	if (*philos[0].all_done)
-	{
-		pthread_mutex_unlock(philos[0].dead_lock);
-		return (1);
-	}
-	pthread_mutex_unlock(philos[0].dead_lock);
-	return (0);
+	pthread_mutex_lock(philo->dead_lock);
+	done = *philo->all_done;
+	pthread_mutex_unlock(philo->dead_lock);
+	if (done)
+		return (0);
+	if (philo->id % 2)
+		usleep(300);
+	if (philo->id % 2 == 0)
+		return (take_forks_even(philo));
+	else
+		return (take_forks_odd(philo));
 }
 
 int	eat_action(t_philo *philo)

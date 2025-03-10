@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:41:11 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/10 21:27:48 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/10 22:24:47 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,6 @@ void	cleanup(t_program *program, int nb_philo)
 	free(program->philos);
 }
 
-int	take_forks(t_philo *philo)
-{
-	int	done;
-
-	pthread_mutex_lock(philo->dead_lock);
-	done = *philo->all_done;
-	pthread_mutex_unlock(philo->dead_lock);
-	if (done)
-		return (0);
-	if (philo->id % 2)
-		usleep(100);
-	if (philo->id % 2 == 0)
-		return (take_forks_even(philo));
-	else
-		return (take_forks_odd(philo));
-}
 
 void	print_status(t_philo *philo, char *status)
 {
