@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:37:25 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/03 14:57:25 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/10 21:22:08 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,3 +65,7 @@ void	create_threads(t_program *program, int nb_philo);
 int		take_forks_even(t_philo *philo);
 int		take_forks_odd(t_philo *philo);
 void	handle_single_philo(t_philo *philo);
+int		check_done_flag(t_philo *philos);
+int		check_meals_helper(t_philo *philos, int nb_philo);
+int		eat_action(t_philo *philo);
+int		sleep_think(t_philo *philo);

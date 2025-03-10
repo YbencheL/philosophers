@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/15 14:37:33 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/04 12:58:50 by ybenchel         ###   ########.fr       */
+/*   Created: 2025/02/15 14:37:55 by ybenchel          #+#    #+#             */
+/*   Updated: 2025/03/10 21:27:48 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 void	init_philo_values(t_philo *philo, char **av, int ac)
 {
+	philo->meals_eaten = 0;
 	philo->time_to_die = ft_atoi(av[2]);
 	philo->time_to_eat = ft_atoi(av[3]);
 	philo->time_to_sleep = ft_atoi(av[4]);
-	philo->start_time = get_timestamp();
-	philo->last_meal = get_timestamp();
+	philo->nb_philos = ft_atoi(av[1]);
 	philo->dead = 0;
-	philo->meals_eaten = 0;
 	if (ac == 6)
 		philo->num_times_to_eat = ft_atoi(av[5]);
 	else
@@ -34,6 +33,8 @@ void	init_utils(t_program *program, int i, int nb_philo)
 	program->philos[i].write_lock = &program->write_lock;
 	program->philos[i].dead_lock = &program->dead_lock;
 	program->philos[i].meal_lock = &program->meal_lock;
+	program->philos[i].start_time = get_timestamp();
+	program->philos[i].last_meal = get_timestamp();
 	program->philos[i].left_fork = malloc(sizeof(pthread_mutex_t));
 	if (!program->philos[i].left_fork)
 		return ;

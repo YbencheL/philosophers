@@ -6,52 +6,53 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:03:28 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/05 21:29:32 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/10 21:13:44 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	check_philo_death(t_philo *philos, int i)
-{
-	pthread_mutex_lock(philos[i].meal_lock);
-	pthread_mutex_lock(philos[i].dead_lock);
-	if ((get_timestamp() - philos[i].last_meal) > philos[i].time_to_die
-		&& !*philos[i].all_done)
-	{
-		*philos[i].all_done = 1;
-		philos[i].dead = 1;
-		print_status(&philos[i], "died");
-		pthread_mutex_unlock(philos[i].dead_lock);
-		pthread_mutex_unlock(philos[i].meal_lock);
-		return (1);
-	}
-	pthread_mutex_unlock(philos[i].dead_lock);
-	pthread_mutex_unlock(philos[i].meal_lock);
-	return (0);
-}
-
-int	check_all_meals(t_philo *philos, int nb_philo)
+int	check_meals_helper(t_philo *philos, int nb_philo)
 {
 	int	i;
+	int	all_ate;
 
-	pthread_mutex_lock(philos[0].meal_lock);
-	pthread_mutex_lock(philos[0].dead_lock);
+	all_ate = 1;
 	i = -1;
 	while (++i < nb_philo)
 	{
 		if (philos[i].num_times_to_eat == 0
 			|| philos[i].meals_eaten < philos[i].num_times_to_eat)
 		{
-			pthread_mutex_unlock(philos[0].dead_lock);
-			pthread_mutex_unlock(philos[0].meal_lock);
-			return (0);
+			all_ate = 0;
+			break ;
 		}
 	}
-	*philos[0].all_done = 1;
+	return (all_ate);
+}
+
+int	check_all_meals(t_philo *philos, int nb_philo)
+{
+	int	all_ate;
+
+	pthread_mutex_lock(philos[0].dead_lock);
+	if (*philos[0].all_done)
+	{
+		pthread_mutex_unlock(philos[0].dead_lock);
+		return (1);
+	}
 	pthread_mutex_unlock(philos[0].dead_lock);
+	pthread_mutex_lock(philos[0].meal_lock);
+	all_ate = check_meals_helper(philos, nb_philo);
 	pthread_mutex_unlock(philos[0].meal_lock);
-	return (1);
+	if (all_ate)
+	{
+		pthread_mutex_lock(philos[0].dead_lock);
+		*philos[0].all_done = 1;
+		pthread_mutex_unlock(philos[0].dead_lock);
+		return (1);
+	}
+	return (0);
 }
 
 int	check_args(int ac, char **av)
@@ -73,5 +74,32 @@ int	check_args(int ac, char **av)
 		return (write(2, "Error: Invalid time values\n", 27), 1);
 	if (ac == 6 && ft_atoi(av[5]) < 0)
 		return (write(2, "Error: Invalid number of meals\n", 30), 1);
+	return (0);
+}
+
+int	check_philo_death(t_philo *philos, int i)
+{
+	int	current_time;
+	int	last_meal;
+
+	pthread_mutex_lock(philos[i].meal_lock);
+	last_meal = philos[i].last_meal;
+	pthread_mutex_unlock(philos[i].meal_lock);
+	current_time = get_timestamp();
+	if (current_time - last_meal >= philos[i].time_to_die)
+	{
+		pthread_mutex_lock(philos[i].dead_lock);
+		if (!(*philos[i].all_done))
+		{
+			*philos[i].all_done = 1;
+			philos[i].dead = 1;
+			pthread_mutex_lock(philos[i].write_lock);
+			printf("%d %d died\n", current_time - philos[i].start_time,
+				philos[i].id + 1);
+			pthread_mutex_unlock(philos[i].write_lock);
+		}
+		pthread_mutex_unlock(philos[i].dead_lock);
+		return (1);
+	}
 	return (0);
 }

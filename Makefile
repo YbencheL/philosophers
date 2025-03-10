@@ -1,19 +1,19 @@
 NAME = philo
 
-SRCS = main.c philosophers.c utils.c philo_utils.c \
-		extra_utils.c checkers.c
-
-HEADERS = philosophers.h
+SRCS = main.c philosophers.c utils.c philo_utils.c extra_utils.c checkers.c more_utils.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g3
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=thread -g3
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(HEADERS)
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 clean:
@@ -23,7 +23,5 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-
-.SECONDARY: $(OBJS)
 
 .PHONY: all clean fclean re
