@@ -6,21 +6,11 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 09:41:50 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/10 23:51:52 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/11 00:32:53 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-void	join_threads(t_program *program, int nb_philo)
-{
-	int	i;
-
-	i = 0;
-	while (i < nb_philo)
-		pthread_join(program->philos[i++].thread, NULL);
-	cleanup(program, nb_philo);
-}
 
 void	create_threads(t_program *program, int nb_philo)
 {
@@ -43,7 +33,10 @@ void	create_threads(t_program *program, int nb_philo)
 	}
 	if (nb_philo > 1)
 		death_reaper(program->philos, nb_philo);
-	join_threads(program, nb_philo);
+	i = 0;
+	while (i < nb_philo)
+		pthread_join(program->philos[i++].thread, NULL);
+	cleanup(program, nb_philo);
 }
 
 void	handle_single_philo(t_philo *philo)
@@ -70,11 +63,6 @@ void	*philo_purpose(void *arg)
 	}
 	if (philo->id % 2)
 		usleep(500);
-	return (philo_routine(philo));
-}
-
-void	*philo_routine(t_philo *philo)
-{
 	while (1)
 	{
 		pthread_mutex_lock(philo->dead_lock);
