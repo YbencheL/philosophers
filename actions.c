@@ -72,6 +72,7 @@ int	sleep_think(t_philo *philo)
 	if (done)
 		return (0);
 	print_status(philo, "is thinking");
+	usleep(300);
 	return (1);
 }
 
@@ -85,7 +86,7 @@ void	precise_sleep(size_t ms)
 	{
 		elapsed = get_timestamp() - start;
 		if (elapsed >= ms)
-			break;
+			break ;
 		usleep(100);
 	}
 }

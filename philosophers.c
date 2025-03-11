@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 09:41:50 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/11 15:29:11 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:11:35 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ void	*philo_purpose(void *arg)
 			return (NULL);
 		}
 		pthread_mutex_unlock(philo->dead_lock);
-		if (!take_forks(philo) || !eat_action(philo) || !sleep_think(philo))
+		if (!take_forks(philo) || !eat_action(philo) || !sleep_think(philo)
+			|| check_all_meals(philo, philo->nb_philos))
 			break ;
 	}
 	return (NULL);
