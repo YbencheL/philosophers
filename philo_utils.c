@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:23:37 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/10 23:30:30 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/11 15:25:22 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void	death_reaper(t_philo *philos, int nb_philo)
 			if (check_philo_death(philos, i))
 				return ;
 			i++;
-			usleep(100);
 		}
 		usleep(1000);
 	}

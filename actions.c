@@ -21,6 +21,8 @@ int	take_forks(t_philo *philo)
 	pthread_mutex_unlock(philo->dead_lock);
 	if (done)
 		return (0);
+	if (philo->id % 2)
+		usleep(300);
 	if (philo->id % 2 == 0)
 		return (take_forks_even(philo));
 	else
@@ -29,12 +31,12 @@ int	take_forks(t_philo *philo)
 
 int	eat_action(t_philo *philo)
 {
-	size_t		eating_start;
+	size_t		start_of_eating;
 	int			done;
 
-	eating_start = get_timestamp();
+	start_of_eating = get_timestamp();
 	pthread_mutex_lock(philo->meal_lock);
-	philo->last_meal = eating_start;
+	philo->last_meal = start_of_eating;
 	philo->meals_eaten++;
 	pthread_mutex_unlock(philo->meal_lock);
 	pthread_mutex_lock(philo->dead_lock);
@@ -70,7 +72,6 @@ int	sleep_think(t_philo *philo)
 	if (done)
 		return (0);
 	print_status(philo, "is thinking");
-	usleep(200);
 	return (1);
 }
 
@@ -84,10 +85,7 @@ void	precise_sleep(size_t ms)
 	{
 		elapsed = get_timestamp() - start;
 		if (elapsed >= ms)
-			break ;
-		if (ms - elapsed > 5)
-			usleep(1000);
-		else
-			usleep(100);
+			break;
+		usleep(100);
 	}
 }
