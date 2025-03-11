@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 09:41:50 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/11 00:32:53 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/11 01:06:12 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	handle_single_philo(t_philo *philo)
 	print_status(philo, "died");
 	pthread_mutex_unlock(philo->dead_lock);
 }
-
 
 void	*philo_purpose(void *arg)
 {

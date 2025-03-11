@@ -29,7 +29,7 @@ int	take_forks(t_philo *philo)
 
 int	eat_action(t_philo *philo)
 {
-	size_t	eating_start;
+	size_t		eating_start;
 	int			done;
 
 	eating_start = get_timestamp();
