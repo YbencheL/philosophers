@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:37:25 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/10 23:42:37 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:33:45 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int		get_timestamp(void);
 void	print_status(t_philo *philo, char *status);
 void	init_philo_values(t_philo *philo, char **av, int ac);
 void	init_philosophers(t_program *program, int nb_philo, int ac, char **av);
-int		eat_sleep_think(t_philo *philo);
 int		take_forks(t_philo *philo);
 void	death_reaper(t_philo *philos, int nb_philo);
 void	cleanup(t_program *program, int nb_philo);
@@ -69,4 +68,3 @@ int		check_meals_helper(t_philo *philos, int nb_philo);
 int		eat_action(t_philo *philo);
 int		sleep_think(t_philo *philo);
 void	precise_sleep(size_t ms);
-void	*philo_routine(t_philo *philo);

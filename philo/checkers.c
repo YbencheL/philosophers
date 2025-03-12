@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:03:28 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/11 15:09:04 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:34:19 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	check_args(int ac, char **av)
 		return (write(2, "Error: Invalid number of philosophers\n", 37), 1);
 	if (ft_atoi(av[2]) < 0 || ft_atoi(av[3]) < 0 || ft_atoi(av[4]) < 0)
 		return (write(2, "Error: Invalid time values\n", 27), 1);
-	if (ac == 6 && ft_atoi(av[5]) < 0)
+	if (ac == 6 && ft_atoi(av[5]) <= 0)
 		return (write(2, "Error: Invalid number of meals\n", 30), 1);
 	return (0);
 }

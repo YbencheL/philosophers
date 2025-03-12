@@ -6,7 +6,7 @@
 /*   By: ybenchel <ybenchel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:41:11 by ybenchel          #+#    #+#             */
-/*   Updated: 2025/03/10 22:52:20 by ybenchel         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:29:47 by ybenchel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,4 @@ void	print_status(t_philo *philo, char *status)
 	printf("%d %d %s\n", get_timestamp() - philo->start_time,
 		philo->id + 1, status);
 	pthread_mutex_unlock(philo->write_lock);
-}
-
-int	eat_sleep_think(t_philo *philo)
-{
-	if (!take_forks(philo))
-		return (0);
-	if (!eat_action(philo))
-		return (0);
-	if (!sleep_think(philo))
-		return (0);
-	return (1);
 }

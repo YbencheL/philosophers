@@ -57,8 +57,10 @@ int	eat_action(t_philo *philo)
 
 int	sleep_think(t_philo *philo)
 {
-	int	done;
+	int			done;
+	long long	current;
 
+	current = get_timestamp();
 	pthread_mutex_lock(philo->dead_lock);
 	done = *philo->all_done;
 	pthread_mutex_unlock(philo->dead_lock);
